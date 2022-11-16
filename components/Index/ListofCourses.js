@@ -7,16 +7,21 @@ import {useState} from 'react'
 import instructor from '../../assets/images/instructor-baaner.png'
 import student from '../../assets/images/student-banner.png'
 import {useRouter} from 'next/router'
-
+import {Swiper,SwiperSlide,useSwiper} from 'swiper/react'
+// import {Navigation} from 'swiper'
+import 'swiper/css'
+// import 'swiper/scss/navigation';
 
 const ListofCourses = () => {
-    
     const [temp,setTemp] = useState(0)
+    const [swiper,setSwiperinstance] = useState(null)
    const changeTemplateLeft = (e) => {
-    setTemp(temp+10)
+    // setTemp(temp+10)
+    swiper.slidePrev()
    }
    const changeTemplateRight = (e) => {
-    setTemp(temp-10)
+    // setTemp(temp-10)
+    swiper.slideNext()
    }
     const ar = new Array(10)
     for(let i=0;i<10;i++){
@@ -39,8 +44,16 @@ const ListofCourses = () => {
         </div>
         <div className="courses-items-categories p-7 w-11/12 border border-textGrey overflow-hidden relative">
             <div className={`course-slider p-2 flex flex-row space-x-8 relative`}>
-                {ar.map(mp => <CourseBox key={mp} temp={temp}/>)}
-                
+                {/* {ar.map(mp => <CourseBox key={mp} temp={temp}/>)} */}
+                <Swiper
+                spaceBetween={10}
+                slidesPerView={5}
+                onSlideChange={() => console.log('slide change')}
+                onSwiper={(swiper) => setSwiperinstance(swiper)}
+                >
+                    {ar.map(val => <SwiperSlide><CourseBox key={val} temp={temp}/></SwiperSlide>)}
+                    
+                </Swiper>
             </div>
             <FaArrowLeft className='p-1 bg-black rounded-full text-white absolute left-0 top-2/4 cursor-pointer shadow-xl' onClick={changeTemplateLeft} size={30}/>
             <FaArrowRight className='p-1 bg-black rounded-full text-white absolute right-0 top-2/4 cursor-pointer shadow-xl' onClick={changeTemplateRight} size={30}/>

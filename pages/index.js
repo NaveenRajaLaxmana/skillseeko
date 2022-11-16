@@ -1,17 +1,23 @@
-import Head from "next/head";
+import useGetCourse, { useCheckLogin } from "hooks/useGetCourse";
 import Carousal from "../components/Carousal";
-import Footer from "../components/Footer";
 import ListofCourses from "../components/Index/ListofCourses";
 import Layout from "../components/Layout";
-import Navbar from "../components/Navbar";
 
-const Index = () => {
+const Index = () => {    
+  const {data} = useGetCourse()
+  const {user} = useCheckLogin()
+  console.log(data,user)
+  if(user)
+  {
+    localStorage.setItem("user","true")
+  }
   return (
     <div className="w-screen h-auto overflow-x-hidden">
-      <Layout>
-      <Carousal />
-      <ListofCourses />
-      </Layout>
+      
+        <Layout>
+        <Carousal />
+        <ListofCourses />
+        </Layout>
     </div>
   )
 }

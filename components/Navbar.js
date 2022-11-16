@@ -1,8 +1,15 @@
 import {FaSearch,FaShoppingCart,FaBars} from 'react-icons/fa'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
+import { logout, useAuthUser } from 'contexts/AuthContext'
 const Navbar = () => {
     const router = useRouter()
+    const {state,dispatch} = useAuthUser()
+    
+    const Logout = () => {
+        logout(dispatch)
+        router.push('/')
+    }
     return (
         <div className="w-full h-16 z-10 sticky bg-white flex flex-row lg:justify-around items-center lg:p-0 px-2 shadow-2xl mb-0 justify-between">
             <FaBars fontSize={15} className="lg:hidden cursor-pointer hover:text-blue"/>
@@ -18,17 +25,22 @@ const Navbar = () => {
             <FaShoppingCart fontSize={19} className="cursor-pointer hover:text-blue" onClick={() => router.push('/cart')}/>
             </div>
             <FaShoppingCart fontSize={19} className="hidden lg:flex cursor-pointer hover:text-blue" onClick={() => router.push('/cart')}/>
-            <Link href={'/login'}>
+            {!state.user ? <Link href={'/login'}>
                 <a className='hidden lg:flex py-1 px-2 border border-black bg-white text-black'>
                     Log in
                 </a>
-            </Link>
-            <Link href={'/login/register'}>
+            </Link> : ''
+            }       
+            {!state.user ? <Link href={'/login/register'}>
             <a className='hidden lg:flex py-1 px-2 border border-white bg-black text-white'>
                 Sign up
             </a>
             </Link>
-            
+            : ''
+            }
+            {state.user ? 
+                <button onClick={Logout} className='hidden lg:flex py-1 px-2 border border-black bg-white text-black'>Logout</button> : ''
+            }
             
         </div>
     ) 
