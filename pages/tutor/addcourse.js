@@ -69,17 +69,17 @@ const AddCourse = () => {
         
         console.log(videos)
         console.log(values)
-        // video.forEach(v => {
-        //     const data = new FormData()
-        // data.append("file",v[1])
-        // data.append("upload_preset","skill-seeko-video")
-        // data.append("cloud_name","naveencloudinary")
+        video.forEach(v => {
+            const data = new FormData()
+        data.append("file",v[1])
+        data.append("upload_preset",`${process.env.NEXT_PUBLIC_UPLOAD_PRESET}`)
+        data.append("cloud_name",`${process.env.NEXT_PUBLIC_CLOUD_NAME}`)
 
-        // fetch("https://api.cloudinary.com/v1_1/naveencloudinary/video/upload",{
-        //     method:"POST",
-        //     body: data
-        // }).then(res => res.json()).then(data =>console.log(data)).catch(error => console.log(error))
-        // })
+        fetch(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_USER_NAME}/video/upload`,{
+            method:"POST",
+            body: data
+        }).then(res => res.json()).then(data =>console.log(data)).catch(error => console.log(error))
+        })
     }
   return (
     <Layout title={"AddCourse"}>
