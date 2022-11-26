@@ -2,12 +2,15 @@ import {FaSearch,FaShoppingCart,FaBars} from 'react-icons/fa'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
 import { logout, useAuthUser } from 'contexts/AuthContext'
+import { useAuthTutor,logoutTutor } from 'contexts/TutorContext'
 const Navbar = () => {
     const router = useRouter()
     const {state,dispatch} = useAuthUser()
+    const {state:tstate,dispatch:tdispatch} = useAuthTutor()
     
     const Logout = () => {
         logout(dispatch)
+        logoutTutor(tdispatch)
         router.push('/')
     }
     return (
@@ -38,7 +41,7 @@ const Navbar = () => {
             </Link>
             : ''
             }
-            {state.user ? 
+            {state.user || tstate.tutor ? 
                 <button onClick={Logout} className='hidden lg:flex py-1 px-2 border border-black bg-white text-black'>Logout</button> : ''
             }
             

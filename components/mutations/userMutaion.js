@@ -9,5 +9,17 @@ const USER_LOGIN = gql`
         }
     }
 `
+const USER_REGISTER = gql`
+mutation register($username:String!,$password:String!,$email:String!)
+{
+    addUser(username:$username,password:$password,email:$email)
+    {
+        token,
+        email,
+        username,
+        courselist
+    }
+}
+`
 
-export {USER_LOGIN}
+export {USER_LOGIN,USER_REGISTER}

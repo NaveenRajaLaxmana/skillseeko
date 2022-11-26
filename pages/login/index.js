@@ -51,7 +51,7 @@ const Login = () => {
           <h1 className='font-bold text-xl self-center'>Login</h1>
           <form className='login-form flex flex-col h-4/6 justify-center space-y-5 relative' onSubmit={onSubmit}>
             <div>
-            <label className='font-semibold text-lg'>Email Id :</label>
+            <label className='font-semibold text-lg'>Username :</label>
             <input ref={username} className='font-normal text-lg w-full min-h-[40px] self-center border border-black outline-none rounded-md pl-2' placeholder='Email Id'type={"text"}/>
             </div>
             <div>

@@ -1,7 +1,8 @@
 import '../styles/globals.css'
 import {ApolloProvider,ApolloClient,InMemoryCache, createHttpLink, useQuery} from '@apollo/client'
 import {setContext} from '@apollo/client/link/context'
-import AuthContext, { AuthProvider } from 'contexts/AuthContext'
+import  { AuthProvider } from 'contexts/AuthContext'
+import { TutorAuthProvider } from 'contexts/TutorContext'
 
 const httpLink =new createHttpLink({
   uri: "http://localhost:5000/graphql",
@@ -26,9 +27,11 @@ const client = new ApolloClient({
 function MyApp({ Component, pageProps }) {
   return (
     <ApolloProvider client={client}>
-      <AuthProvider>
-        <Component {...pageProps} />
-      </AuthProvider>
+      <TutorAuthProvider>
+        <AuthProvider>
+          <Component {...pageProps} />
+        </AuthProvider>
+      </TutorAuthProvider>
     </ApolloProvider>
   
   )

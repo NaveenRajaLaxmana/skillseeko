@@ -1,57 +1,48 @@
 import { useState,useEffect,createContext, useContext, useReducer } from 'react'
-import {useRouter} from 'next/router'
-import { NEXT_URL } from '@/config/index'
-import { useCheckLogin } from 'hooks/useGetCourse';
 
 
 
-export const AuthContext = createContext();
+export const TutorContext = createContext();
 
-export const useAuthUser = () => {
-    return useContext(AuthContext)
+export const useAuthTutor = () => {
+    return useContext(TutorContext)
 }
 
-export const registerUser = async (token,user,dispatch) => {
+export const registerTutor = async (token,tutor,dispatch) => {
        localStorage.setItem('token',token)
        dispatch({
         type:"REGISTER",
-        payload:user
+        payload:tutor
        })
 }
 
-export const loginuser = async (token,loginUser,dispatch) => {
+export const logintutor = async (token,loginTutor,dispatch) => {
       localStorage.setItem('token',token)
       dispatch({
         type:"LOGIN",
-        payload:loginUser
+        payload:loginTutor
       })
 }
 
-export const logout = async (dispatch) => {
+export const logoutTutor = async (dispatch) => {
     localStorage.removeItem('token')
       dispatch({
         type:"LOGOUT",
       })
 }
 
-export const checkUserLoggedIn = async () => {
-    const{user:curuser,error}=useCheckLogin()
-    if(curuser)return true;
-    if(error)return false;
-}
-
-export const AuthProvider = ({children}) => {
+export const TutorAuthProvider = ({children}) => {
     const AuthState = {
-        user:null,
+        tutor:null,
         error:null
     }
 
     const [state,dispatch] = useReducer(AuthReducer,AuthState)
 
     return (
-        <AuthContext.Provider value={{ state,dispatch }}>
+        <TutorContext.Provider value={{ state,dispatch }}>
             {children}
-        </AuthContext.Provider>
+        </TutorContext.Provider>
     )
 
 }
@@ -63,21 +54,21 @@ const AuthReducer = (state,action) => {
         case 'LOGIN':
             return {
                 ...state,
-                user:action.payload
+                tutor:action.payload
             }
         case 'LOGOUT':
             return {
                 ...state,
-                user:null
+                tutor:null
             }
         case 'REGISTER':
             return {
                 ...state,
-                user:action.payload
+                tutor:action.payload
             }
         default:
             throw new Error(`Unsupported type of: ${action.type}`);
     }
 }
 
-export default AuthContext
+export default TutorContext
