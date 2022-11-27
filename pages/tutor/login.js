@@ -32,7 +32,7 @@ const TutorLogin = () => {
     try {
       
       await loginTutor({variables:{email:email.current.value,password:password.current.value}})
-        router.push('/569')
+        router.push('/tutor')
       
     } catch (error) {
       // console.log(error)

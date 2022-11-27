@@ -3,11 +3,16 @@ import {useRouter} from 'next/router'
 import Link from 'next/link'
 import { logout, useAuthUser } from 'contexts/AuthContext'
 import { useAuthTutor,logoutTutor } from 'contexts/TutorContext'
+import { useMemo } from 'react'
+import {destroyCookie, parseCookies} from 'nookies'
+
 const Navbar = () => {
     const router = useRouter()
-    const {state,dispatch} = useAuthUser()
-    const {state:tstate,dispatch:tdispatch} = useAuthTutor()
-    
+    const {dispatch} = useAuthUser()
+    const {dispatch:tdispatch} = useAuthTutor()
+    const cookies = parseCookies()
+   
+
     const Logout = () => {
         logout(dispatch)
         logoutTutor(tdispatch)
@@ -28,24 +33,25 @@ const Navbar = () => {
             <FaShoppingCart fontSize={19} className="cursor-pointer hover:text-blue" onClick={() => router.push('/cart')}/>
             </div>
             <FaShoppingCart fontSize={19} className="hidden lg:flex cursor-pointer hover:text-blue" onClick={() => router.push('/cart')}/>
-            {!state.user ? <Link href={'/login'}>
+            {!cookies.tutor && !cookies.user ? <Link href={'/login'}>
                 <a className='hidden lg:flex py-1 px-2 border border-black bg-white text-black'>
                     Log in
                 </a>
             </Link> : ''
             }       
-            {!state.user ? <Link href={'/login/register'}>
+            {!cookies.tutor && !cookies.user ? <Link href={'/login/register'}>
             <a className='hidden lg:flex py-1 px-2 border border-white bg-black text-white'>
                 Sign up
             </a>
             </Link>
             : ''
             }
-            {state.user || tstate.tutor ? 
+            {cookies.tutor || cookies.user ? 
                 <button onClick={Logout} className='hidden lg:flex py-1 px-2 border border-black bg-white text-black'>Logout</button> : ''
             }
             
         </div>
     ) 
 }
+
 export default Navbar

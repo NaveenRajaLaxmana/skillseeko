@@ -1,5 +1,5 @@
 import { useState,useEffect,createContext, useContext, useReducer } from 'react'
-
+import {destroyCookie, setCookie} from 'nookies'
 
 
 export const TutorContext = createContext();
@@ -18,6 +18,10 @@ export const registerTutor = async (token,tutor,dispatch) => {
 
 export const logintutor = async (token,loginTutor,dispatch) => {
       localStorage.setItem('token',token)
+      setCookie(null,'tutor',loginTutor.token,{
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/',
+      })
       dispatch({
         type:"LOGIN",
         payload:loginTutor
@@ -26,6 +30,7 @@ export const logintutor = async (token,loginTutor,dispatch) => {
 
 export const logoutTutor = async (dispatch) => {
     localStorage.removeItem('token')
+    destroyCookie(null,'tutor')
       dispatch({
         type:"LOGOUT",
       })

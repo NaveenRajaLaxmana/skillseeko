@@ -35,7 +35,7 @@ const TutorRegister = () => {
     try {
       
       await addInstructor({variables:{name:name.current.value,email:email.current.value,password:password.current.value,phone:phone.current.value}})
-        router.push('/569')
+        router.push('/tutor')
       
     } catch (error) {
       // console.log(error)

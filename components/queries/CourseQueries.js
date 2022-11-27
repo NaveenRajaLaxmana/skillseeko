@@ -8,6 +8,7 @@ const GET_COURSES = gql `
             name
             price
             hours
+            thumbnail
             description
             instructor{
             name
@@ -15,6 +16,8 @@ const GET_COURSES = gql `
             }
             videos {
             id
+            url
+            name
             }
             }
     }

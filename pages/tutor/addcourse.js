@@ -1,5 +1,9 @@
+import { useAuthTutor } from 'contexts/TutorContext'
 import React,{useState,useEffect} from 'react'
 import Layout from '../../components/Layout'
+import {useRouter} from 'next/router'
+import nookies from 'nookies'
+import Link from 'next/link'
 
 const VideoAdd = ({setVideo,modulenamevideo,setmodule}) => {
     const [videoname,setVideoName] = useState('')
@@ -36,7 +40,13 @@ const CourseModule = ({setmodule,setVideo}) => {
     )
 }
 
-const AddCourse = () => {
+const AddCourse = ({cookies}) => {
+    // const router = useRouter()
+    const {state,dispatch} = useAuthTutor()
+    
+    // if(!state.tutor){
+    //   return router.push('/tutor/login')
+    // }
     const [countM,setCountM] = useState([1])
     const [values,setValues] = useState({
         courseName:'',
@@ -47,6 +57,7 @@ const AddCourse = () => {
         thumbnail:'',
         modules:[]
     })
+
 
     const [videos,setVideos] = useState([])
     
@@ -61,31 +72,37 @@ const AddCourse = () => {
         
         console.log('called')
 
-        setValues(values => ({...values,modules:[...videos]}),() => console.log('hello'))
-        setTimeout(() => {
-            console.log(values)
-        },1000)
-
-        
         console.log(videos)
         console.log(values)
-        video.forEach(v => {
+        videos.forEach(v => {
             const data = new FormData()
-        data.append("file",v[1])
+        data.append("file",v.file)
         data.append("upload_preset",`${process.env.NEXT_PUBLIC_UPLOAD_PRESET}`)
         data.append("cloud_name",`${process.env.NEXT_PUBLIC_CLOUD_NAME}`)
 
         fetch(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_USER_NAME}/video/upload`,{
             method:"POST",
             body: data
-        }).then(res => res.json()).then(data =>console.log(data)).catch(error => console.log(error))
+        }).then(res => res.json()).then(data =>{
+            console.log(data)
+            setValues(values => ({
+                ...values,
+                modules:[...values.modules,{module:v.modulename,videoname:v.videoname,url:data.url}]
+            }))
+        }).catch(error => console.log(error))
         })
+        setTimeout(() => {
+            console.log(values)
+        },10000)
     }
   return (
     <Layout title={"AddCourse"}>
         <section className='addcourse-tab min-h-screen w-screen flex flex-row justify-center'>
             <div className='main-content flex flex-col mt-14'>
+            <div className='flex flex-row justify-between items-center'>
                 <h2 className='font-bold text-lg'>Add Course</h2>
+                <Link href={`/tutor/`}><p className='bg-blue text-white font-semibold text-sm py-3 px-3 rounded-lg cursor-pointer'>Back</p></Link>
+            </div>
                 <form className='my-2 p-2 w-full h-max flex flex-col border'>
                     <div className='course-name my-1 w-full flex flex-col'>
                         <label className='font-semibold text-md'>Course Name</label>
@@ -130,6 +147,28 @@ const AddCourse = () => {
         </section>
     </Layout>
   )
+}
+
+export async function getServerSideProps(ctx){
+    const cookies = nookies.get(ctx)
+    console.log('here===============')
+    console.log(cookies.tutor)
+
+    if(!cookies.tutor)
+    {
+        return{
+            redirect:{
+                destination:'/tutor/login',
+                permanent:false
+            }
+        }
+    }
+
+    return {
+        props:{
+            cookies
+        }
+    }
 }
 
 export default AddCourse

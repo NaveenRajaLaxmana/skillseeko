@@ -12,7 +12,7 @@ import {Swiper,SwiperSlide,useSwiper} from 'swiper/react'
 import 'swiper/css'
 // import 'swiper/scss/navigation';
 
-const ListofCourses = () => {
+const ListofCourses = ({courses}) => {
     const [temp,setTemp] = useState(0)
     const [swiper,setSwiperinstance] = useState(null)
    const changeTemplateLeft = (e) => {
