@@ -12,6 +12,8 @@ import car1 from '../../assets/images/car1.jpg'
 import car2 from '../../assets/images/car2.jpg'
 import {MdOutlineOndemandVideo,MdOutlineArticle,MdCloudDownload} from 'react-icons/md'
 import {GrCertificate} from 'react-icons/gr'
+import client from 'apolloClient'
+import { gql } from '@apollo/client'
 
 
 
@@ -121,11 +123,11 @@ And much more!
 
 If you read the above list and are feeling a bit confused, don’t worry! As an instructor and student on Udemy for almost 4 years, I know what it’s like to be overwhelmed with boring and mundane. I promise you’ll have a blast learning the ins and outs of python. I’ve successfully taught over 200,000+ students from over 200 countries jumpstart their programming journeys through my courses.`
 
-export const Coursetopic = () => {
-  return courseTopics.map(top => <TopicsSection key={top.name} topic={top}/>)
+export const Coursetopic = (course) => {
+  return courseTopics.map(top => <TopicsSection key={top.name} topic={top} course={course}/>)
 }
 
-export const TopicsSection = ({topic,width}) => {
+export const TopicsSection = ({topic=null,width=null,course=null}) => {
   const [show,setShow] = useState(false)
   const {name:title,list} = topic
   
@@ -137,7 +139,7 @@ export const TopicsSection = ({topic,width}) => {
       </div>
    
       {list.length>0 &&<div className={`font-normal text-sm px-3 flex-col ${show ? 'flex' : 'hidden'}`}>
-        {list.map(vid => <div className="flex flex-row space-x-2"><FaPlayCircle size={16}/> <p>{vid.name}</p></div>)}
+        {course?.videos.map(vid => <div className="flex flex-row space-x-2"><FaPlayCircle size={16}/> <p>{vid.name}</p></div>)}
       </div>}
     
   </div>
@@ -166,7 +168,8 @@ const InstructorDetails = ({instructor}) => {
   )
 }
 
-const CourseView = () => {
+const CourseView = ({course}) => {
+  
   return (
     <Layout title={title} description={description}>
       <section className="couse-view-banner relative">
@@ -175,18 +178,19 @@ const CourseView = () => {
         <h6 className="text-category-color font-semibold text-sm cursor-pointer mb-3 flex-wrap self-start">{category}</h6>
         {/* <Image src={car1} className="w-2/4 h-1/3 object-cover lg:hidden"/> */}
         <div className="course thumbnail h-1/3 w-full relative flex flex-col items-center justify-center cursor-pointer lg:hidden">
-        <Image src={car1} className="w-full h-full object-cover"/>
+        <Image src={course.thumbnail} width={350} height={250} className="w-full h-full object-cover"/>
         <FaPlayCircle size={60} className="z-10 absolute text-white"/>
         <p className="font-semibold text-white text-base capitalize absolute bottom-7">Preview this course</p>
         </div>
            
 
-            <h1 className="font-bold text-2xl text-white mb-2 mt-2">{title}</h1>
-            <h2 className="font-bold text-lg text-white mb-2 max-w-lg">{description}</h2>
+            <h1 className="font-bold text-2xl text-white mb-2 mt-2">{course.name}</h1>
+            <h2 className="font-bold text-lg text-white mb-2 max-w-lg">{course.description}</h2>
 
             <Star />
             <p className="text-white my-2">Created By{" "}
-              {instructer.map(mp => <Link key={mp} href={`/instructor/${mp}`}><a className="text-category-color underline">{mp+", "}</a></Link>)}
+              {/* {instructer.map(mp => <Link key={mp} href={`/instructor/${mp}`}><a className="text-category-color underline">{mp+", "}</a></Link>)} */}
+              <Link href={`/instructor/${course.instructor.name}`}><a className="text-category-color underline">{course.instructor.name}</a></Link>
             </p>
             <div className="flex flex-col space-y-4 lg:space-y-0 lg:flex-row lg:items-center lg:space-x-4 my-3">
               <p className="text-sm text-white flex flex-row space-x-1">
@@ -207,7 +211,7 @@ const CourseView = () => {
             <div className="price-div mt-2 flex flex-col lg:hidden">
           <h5 className="font-bold text-white text-lg flex flex-row items-center">
             <FaRupeeSign size={26}/>
-            <span className="font-bold text-3xl">449</span>
+            <span className="font-bold text-3xl">{course.price}</span>
           </h5>
           <p className="text-sm text-offer-ends-color font-bold flex flex-row items-center space-x-1">
           <FaRegClock className="text-sm"/>
@@ -239,7 +243,7 @@ const CourseView = () => {
 
       <div className="hidden course-price-details h-max pb-[50px] bg-white shadow-lg w-1/4 fixed right-14 top-[110px] lg:flex flex-col">
         <div className="course thumbnail h-1/3 w-full relative flex flex-col items-center justify-center cursor-pointer">
-        <Image src={car1} className="w-full h-full object-cover"/>
+        <Image src={course.thumbnail} width={250} height={150} className="w-full h-full object-cover"/>
         <FaPlayCircle size={60} className="z-10 absolute text-white"/>
         <p className="font-semibold text-white text-base capitalize absolute bottom-7">Preview this course</p>
         </div>
@@ -247,7 +251,7 @@ const CourseView = () => {
         <div className="price-div m-2 flex flex-col">
           <h5 className="font-bold text-black text-lg flex flex-row items-center">
             <FaRupeeSign size={26}/>
-            <span className="font-bold text-3xl">449</span>
+            <span className="font-bold text-3xl">{course.price}</span>
           </h5>
           <p className="text-sm text-offer-ends-color flex flex-row items-center space-x-1">
           <FaRegClock className="text-sm"/>
@@ -264,7 +268,7 @@ const CourseView = () => {
           <h6 className="text-base font-black">This course includes:</h6>
           <p className="flex flex-row items-center space-x-1">
             <MdOutlineOndemandVideo size={16}/>
-            <span className="text-sm">{hours} hours on-demand video</span>
+            <span className="text-sm">{course.hours} hours on-demand video</span>
           </p>
 
           <p className="flex flex-row items-center space-x-1">
@@ -329,7 +333,7 @@ const CourseView = () => {
     <section className="course-content my-2 ml-20 lg:max-w-screen-lg">
       <h3 className="font-bold text-2xl">Course Content</h3>
       <p className="text-sm my-1">41 sections . 12h total length</p>
-      {Coursetopic()}
+      {Coursetopic(course)}
     </section>
 
     <section className='requirement-section my-2 ml-20'>
@@ -355,6 +359,41 @@ const CourseView = () => {
     </section>
     </Layout>
   )
+}
+
+export async function getServerSideProps(context){
+  const {data,error} = await client.query({
+    variables:{id:context.query.id},
+    query:gql`
+    query getcourse($id:String){
+      course(id:$id){
+          id
+            ownerid
+            name
+            price
+            hours
+            thumbnail
+            description
+            instructor{
+            name
+            id
+            }
+            videos {
+            id
+            url
+            name
+            }
+      }
+    }
+    `
+  })
+  if(error)console.log(error)
+ 
+  return {
+    props:{
+      course:data.course
+    }
+  }
 }
 
 export default CourseView

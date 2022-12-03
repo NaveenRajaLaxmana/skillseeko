@@ -2,6 +2,7 @@ import { useState,useEffect,createContext, useContext, useReducer } from 'react'
 import {useRouter} from 'next/router'
 import { NEXT_URL } from '@/config/index'
 import { useCheckLogin } from 'hooks/useGetCourse';
+import {destroyCookie, setCookie} from 'nookies'
 
 
 
@@ -21,6 +22,10 @@ export const registerUser = async (token,user,dispatch) => {
 
 export const loginuser = async (token,loginUser,dispatch) => {
       localStorage.setItem('token',token)
+      setCookie(null,'user',loginUser.token,{
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/',
+      })
       dispatch({
         type:"LOGIN",
         payload:loginUser
@@ -29,6 +34,7 @@ export const loginuser = async (token,loginUser,dispatch) => {
 
 export const logout = async (dispatch) => {
     localStorage.removeItem('token')
+    destroyCookie(null,'user')
       dispatch({
         type:"LOGOUT",
       })

@@ -51,7 +51,7 @@ const ListofCourses = ({courses}) => {
                 onSlideChange={() => console.log('slide change')}
                 onSwiper={(swiper) => setSwiperinstance(swiper)}
                 >
-                    {ar.map(val => <SwiperSlide><CourseBox key={val} temp={temp}/></SwiperSlide>)}
+                    {courses.map((course,ind) => <SwiperSlide><CourseBox key={course.id} course={course} temp={ind}/></SwiperSlide>)}
                     
                 </Swiper>
             </div>
@@ -64,7 +64,7 @@ const ListofCourses = ({courses}) => {
             Students are viewing
             </h5>
             <div className={`course-slider p-2 flex flex-row space-x-8 relative w-11/12 overflow-hidden`}>
-                {ar.map(mp => <CourseBox key={mp} temp={temp}/>)}
+                {/* {ar.map(mp => <CourseBox key={mp} temp={temp}/>)} */}
                 
             </div>
         </div>
@@ -108,15 +108,15 @@ const ListofCourses = ({courses}) => {
   )
 }
 
-const CourseBox =({temp}) => {
+const CourseBox =({temp,course}) => {
     const router = useRouter()
     return (
         <div className={`course-box flex flex-col h-auto max-w-max cursor-pointer translate-x-[${temp}px]`} onClick={() => router.push(`/course`)}>
-            <Image src={car1} height="150px" width="220px"/>
+            <Image src={course.thumbnail} height="150px" width="220px"/>
             <h6 className='course-title-box font-semibold max-w-[220px]'>
-            Learn Python: The Complete Python Programming Course
+            {course.name}
             </h6>
-            <p className='course-instructor-box capitalize text-xs'>Avinash Jain,The Codex</p>
+            <p className='course-instructor-box capitalize text-xs'>{course.instructor.name}</p>
             <div className='ratings-box flex flex-row items-center space-x-0.5'>
             <h6 className='font-semibold text-star-yellow'>4.4</h6>
             <FaStar size={13} color={"#e59819"}/>
