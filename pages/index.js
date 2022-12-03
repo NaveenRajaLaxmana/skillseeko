@@ -78,7 +78,7 @@ return (
               onSlideChange={() => console.log('slide change')}
               onSwiper={(swiper) => setSwiperinstance(swiper)} 
               >
-                  {courses.map((course,ind) => <SwiperSlide><CourseBox key={course.id} course={course} temp={ind}/></SwiperSlide>)}
+                  {courses.map((course,ind) => <SwiperSlide key={ind}><CourseBox key={ind} course={course} temp={ind}/></SwiperSlide>)}
                   {/* {courses.map((course,ind) => <CourseBox key={course.id} course={course} temp={ind}/>)} */}
                </Swiper> 
           </div>
@@ -100,7 +100,7 @@ return (
 
       <div className='instructer-banner my-4 mx-3 min-h-[250px] flex flex-col lg:flex-row items-center justify-around h-[550px] w-full'>
           <div className='img-div h-5/6 bg-star-yellow w-2/6 flex justify-center items-center'>
-              <Image src={instructor} className="object-cover object-center"/>
+              <Image src={instructor} className="object-cover object-center" alt="Image"/>
           </div>
           <div className='content-div h-5/6 flex flex-col justify-center'>
               <h4 className='font-bold text-xl'>
@@ -117,7 +117,7 @@ return (
 
       <div className='student-banner my-4 mx-3 min-h-[250px] flex flex-col lg:flex-row items-center justify-around h-[550px] w-full'>
           <div className='img-div h-5/6 bg-company-color w-2/6 flex justify-center items-center'>
-              <Image src={student} className="object-cover object-center"/>
+              <Image src={student} className="object-cover object-center" alt="Image"/>
           </div>
           <div className='content-div h-5/6 flex flex-col justify-center'>
               <h4 className='font-bold text-xl'>
@@ -140,7 +140,7 @@ const CourseBox =({temp,course}) => {
   const router = useRouter()
   return (
       <div className={`course-box flex flex-col h-auto max-w-max cursor-pointer translate-x-[${temp}px]`} onClick={() => router.push(`/course?id=${course.id}`)}>
-          <Image src={course.thumbnail} height="150px" width="220px"/>
+          <Image src={course.thumbnail} height="150px" width="220px" alt="Image"/>
           <h6 className='course-title-box font-semibold max-w-[220px]'>
           {course.name}
           </h6>

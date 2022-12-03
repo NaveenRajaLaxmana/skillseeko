@@ -9,7 +9,7 @@ const CourseBox =() => {
   const router = useRouter()
   return (
       <div className={`course-box flex flex-col h-auto max-w-max cursor-pointer shadow-md py-2`} onClick={() => router.push(`/course/list/123`)}>
-          <Image src={car1} height="150px" width="220px"/>
+          <Image src={car1} height="150px" width="220px" alt='Image'/>
           <h6 className='course-title-box font-semibold max-w-[220px] px-1'>
           Learn Python: The Complete Python Programming Course
           </h6>

@@ -35,7 +35,7 @@ const Review = ({review}) => {
   return (
     <div className='review-layout w-3/5 h-max p-2 flex lg:flex-row flex-col'>
       <div className='pro-image rounded-full w-[50px] h-[50px] relative basis-12 mx-2'>
-        <Image src={instimage} width="50" height="50" className='w-full h-full absolute rounded-full object-cover'/>
+        <Image src={instimage} width="50" height="50" className='w-full h-full absolute rounded-full object-cover' alt='Image'/>
       </div>
       <div className='details basis-3/4 flex flex-col'>
         <h2 className='font-bold text-lg'>{review.name}</h2>
@@ -139,7 +139,7 @@ export const TopicsSection = ({topic=null,width=null,course=null}) => {
       </div>
    
       {list.length>0 &&<div className={`font-normal text-sm px-3 flex-col ${show ? 'flex' : 'hidden'}`}>
-        {course?.videos.map(vid => <div className="flex flex-row space-x-2"><FaPlayCircle size={16}/> <p>{vid.name}</p></div>)}
+        {course?.videos.map((vid,ind) => <div key={ind} className="flex flex-row space-x-2"><FaPlayCircle size={16}/> <p>{vid.name}</p></div>)}
       </div>}
     
   </div>
@@ -155,7 +155,7 @@ const InstructorDetails = ({instructor}) => {
       <h6 className='text-textGrey my-1'>{instructor.company}</h6>
       <div className='profile flex flex-row items-center my-2 space-x-6'>
         <div className='pro-image h-[100px] w-[100px] relative rounded-full'>
-          <Image src={instructor.image} width="100" height="100" className='h-full w-full object-cover object-center rounded-full'/>
+          <Image src={instructor.image} width="100" height="100" className='h-full w-full object-cover object-center rounded-full' alt='Image'/>
         </div>
         <div className='flex flex-col'>
           <p className='space-x-1 flex flex-row'><FaStar size={16}/><span>{instructor.instpoint.star} instructor ratings</span></p>
@@ -178,7 +178,7 @@ const CourseView = ({course}) => {
         <h6 className="text-category-color font-semibold text-sm cursor-pointer mb-3 flex-wrap self-start">{category}</h6>
         {/* <Image src={car1} className="w-2/4 h-1/3 object-cover lg:hidden"/> */}
         <div className="course thumbnail h-1/3 w-full relative flex flex-col items-center justify-center cursor-pointer lg:hidden">
-        <Image src={course.thumbnail} width={350} height={250} className="w-full h-full object-cover"/>
+        <Image src={course.thumbnail} width={350} height={250} className="w-full h-full object-cover" alt='Image'/>
         <FaPlayCircle size={60} className="z-10 absolute text-white"/>
         <p className="font-semibold text-white text-base capitalize absolute bottom-7">Preview this course</p>
         </div>
@@ -243,7 +243,7 @@ const CourseView = ({course}) => {
 
       <div className="hidden course-price-details h-max pb-[50px] bg-white shadow-lg w-1/4 fixed right-14 top-[110px] lg:flex flex-col">
         <div className="course thumbnail h-1/3 w-full relative flex flex-col items-center justify-center cursor-pointer">
-        <Image src={course.thumbnail} width={250} height={150} className="w-full h-full object-cover"/>
+        <Image src={course.thumbnail} width={250} height={150} className="w-full h-full object-cover" alt='Image'/>
         <FaPlayCircle size={60} className="z-10 absolute text-white"/>
         <p className="font-semibold text-white text-base capitalize absolute bottom-7">Preview this course</p>
         </div>

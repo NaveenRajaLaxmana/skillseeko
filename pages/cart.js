@@ -13,7 +13,7 @@ export const CartItems = () => {
     const router = useRouter()
     return (
         <div className='flex flex-row h-max w-full p-1 '>
-                    <Image src={car2} width="180" height={"100"} className='w-[180px] h-[150px] object-cover'/>
+                    <Image src={car2} width="180" height={"100"} className='w-[180px] h-[150px] object-cover' alt='Image'/>
                     <div className='flex flex-col px-2 space-y-1 cursor-pointer' onClick={() => router.push('/course')}>
                     <h3 className='font-semibold text-sm'>{title}</h3>
                     <p className='font-semibold text-sm'>{instruct}</p>
