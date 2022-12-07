@@ -8,12 +8,11 @@ import {AiFillExclamationCircle} from 'react-icons/ai'
 import {GiWorld} from 'react-icons/gi'
 import {FaRegListAlt,FaPlayCircle,FaRupeeSign,FaRegClock,FaInfinity,FaMobileAlt,FaStar} from 'react-icons/fa'
 import {IoIosArrowDown,IoMdPeople} from 'react-icons/io'
-import car1 from '../../assets/images/car1.jpg'
-import car2 from '../../assets/images/car2.jpg'
 import {MdOutlineOndemandVideo,MdOutlineArticle,MdCloudDownload} from 'react-icons/md'
 import {GrCertificate} from 'react-icons/gr'
 import client from 'apolloClient'
 import { gql } from '@apollo/client'
+import { addtoCart, useCart } from 'contexts/CartContext'
 
 
 
@@ -169,6 +168,14 @@ const InstructorDetails = ({instructor}) => {
 }
 
 const CourseView = ({course}) => {
+
+  const {state,dispatch} = useCart()
+
+  console.log(useCart())
+
+  const onCartAdd = () => {
+    addtoCart(course,dispatch)
+  }
   
   return (
     <Layout title={title} description={description}>
@@ -218,7 +225,7 @@ const CourseView = ({course}) => {
           <span>1 day left at this price!</span>
           </p>
 
-          <button className="button w-full py-3 text-center flex justify-center items-center bg-blue text-white font-bold text-lg m-2 self-center">Buy this Course</button>
+          <button className="button w-full py-3 text-center flex justify-center items-center bg-blue text-white font-bold text-lg m-2 self-center" onClick={onCartAdd}>Add to Cart</button>
           <p className="my-3 text-center text-sm text-white">
           30-Day Money-Back Guarantee
           </p>
@@ -258,7 +265,7 @@ const CourseView = ({course}) => {
           <span>1 day left at this price!</span>
           </p>
 
-          <button className="button w-full py-3 text-center flex justify-center items-center bg-blue text-white font-bold text-lg m-2 self-center">Buy this Course</button>
+          <button className="button w-full py-3 text-center flex justify-center items-center bg-blue text-white font-bold text-lg m-2 self-center" onClick={onCartAdd}>Add to Cart</button>
           <p className="my-3 text-center text-sm">
           30-Day Money-Back Guarantee
           </p>
@@ -383,6 +390,7 @@ export async function getServerSideProps(context){
             url
             name
             }
+            priceid
       }
     }
     `

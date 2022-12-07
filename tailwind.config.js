@@ -25,8 +25,8 @@ module.exports = {
     },
     extend: {
       backgroundImage:{
-        'car1':"url('../assets/images/car1.jpg')",
-        'car2':"url('../assets/images/car2.jpg')"
+        'car1':"url('https://res.cloudinary.com/naveencloudinary/image/upload/v1670415478/car1_jqrgbm.jpg')",
+        'car2':"url('https://res.cloudinary.com/naveencloudinary/image/upload/v1670415505/car2_zqj4zj.jpg')"
       }
     },
   },

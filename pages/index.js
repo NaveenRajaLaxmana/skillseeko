@@ -156,7 +156,7 @@ const CourseBox =({temp,course}) => {
           </div>
           <h6 className='font-bold flex flex-row items-center'>
               <FaRupeeSign size={13}/>
-              3399
+              {course.price}
           </h6>
           <div className='w-max p-1 mt-1 bg-best-seller-box'>
               <h6 className='text-best-seller-text font-semibold text-xs'>Best Seller</h6>
