@@ -16,7 +16,7 @@ const httpLink =new createHttpLink({
   }) 
 
   const client = new ApolloClient({
-    uri:"http://localhost:5000/.netlify/functions/api/",
+    uri:"https://skill-seeko-backend.netlify.app/.netlify/functions/api/",
     cache: new InMemoryCache()
   })
 
