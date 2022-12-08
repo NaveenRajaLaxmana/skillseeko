@@ -23,6 +23,30 @@ const GET_COURSES = gql `
     }
 `
 
+const GET_COURSE = gql `
+query course($id:String!){
+    course(id:$id)
+    {
+            id
+            ownerid
+            name
+            price
+            hours
+            thumbnail
+            description
+            instructor{
+            name
+            id
+            }
+            videos {
+            id
+            url
+            name
+            }
+    }
+}
+`
+
 const CHECK_LOGIN = gql`
     query getuser{
         user{
@@ -35,4 +59,4 @@ const CHECK_LOGIN = gql`
     }
 `
 
-export {GET_COURSES,CHECK_LOGIN}
+export {GET_COURSES,CHECK_LOGIN,GET_COURSE}

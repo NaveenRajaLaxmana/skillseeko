@@ -51,7 +51,7 @@ const ListofCourses = ({courses}) => {
  }
   const ar = new Array(10)
   for(let i=0;i<10;i++){
-      ar[i] = i;
+      ar[i] = i; 
   }
 return (
   <section className="courses mt-6 lg:mt-16 ml-7 w-screen">

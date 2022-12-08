@@ -6,6 +6,11 @@ import {FaRupeeSign} from 'react-icons/fa'
 import {useRouter} from 'next/router'
 import { useCart } from 'contexts/CartContext'
 import getStripe from 'getStripe'
+import { buyCourseUser, useAuthUser } from 'contexts/AuthContext'
+import { useMutation } from '@apollo/client'
+import { USER_BUY_COURSE } from '@/components/mutations/userMutaion'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 let title = "Learn Python: The Complete Python Programming Course"
 let instruct = "Avinash Jain,The Codex"
@@ -28,26 +33,64 @@ export const CartItems = ({course}) => {
 
 const Cart = () => {
     const {state,dispatch} = useCart()
+    const {state:user,dispatch:userDispatch} = useAuthUser()
+    const router = useRouter()
+
+    let cour = state.cart.map(cr => cr.id)
+
+    let email='',courses=[]
+  const [buyCourse] = useMutation(USER_BUY_COURSE,{
+    variables:{email,courses},
+    update(cache,{data:{buyCourse}}){
+      console.log('success')
+    }
+  }) 
+
+  const call = async () => {
+    try {
+      await buyCourse({variables:{email:user.user.email,courses:cour}})
+    } catch (error) {
+      console.log(error)
+    }
+  }
     
 const onCheckout = async () => {
+    if(user.user==null || user.user==undefined)
+    {
+        toast('Please login',{type:'warning'})
+        return
+    }
     const items = state?.cart?.map(val => {
         return {
-            price:val.priceid,
+            ...val,
             quantity:1
         }
     })
-    const res = await fetch('/api/checkout_sessions',{
-        method:'POST',
-        headers:{
-            'Content-Type': 'application/json'
-        },
-        body:JSON.stringify(items)
-    })
-    const data = res.json()
-    const {id} = data
-
-    const stripe = await getStripe()
-    await stripe.redirectToCheckout({sessionId: id})
+    try {
+        call()
+        buyCourseUser(cour,userDispatch)
+        const res = await fetch('/api/checkout_sessions/',{
+            method:'POST',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(items)
+        })
+        const data = await res.json()
+        const {id} = data
+        console.log(data)
+        if(res.status==200)
+        {
+            // await call()
+            // router.push(`456`)
+        }
+        const stripe = await getStripe()
+        await stripe.redirectToCheckout({sessionId: data.id})
+        
+    } catch (error) {
+        toast(error.toString(),{type:'error'})
+    }
+    
 }
 
   return (
@@ -64,6 +107,7 @@ const onCheckout = async () => {
                     <button className='checkout-btn w-max px-3 py-1 font-bold text-lg outline-none border-none bg-blue text-white rounded-md' onClick={onCheckout}>Checkout</button>
                 </div>
             </div>
+            <ToastContainer />
         </section>
     </Layout>
   )

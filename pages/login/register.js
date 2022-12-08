@@ -36,7 +36,7 @@ const Register = () => {
     try {
       
       await register({variables:{username:username.current.value,password:password.current.value,email:email.current.value}})
-        router.push('/569')
+        router.push('/user/dashboard')
       
     } catch (error) {
       // console.log(error)

@@ -46,6 +46,13 @@ const Navbar = () => {
             </Link>
             : ''
             }
+            {cookies.user ? <Link href={'/user/dashboard'}>
+            <a className='hidden lg:flex py-1 px-2 border border-white bg-black text-white'>
+                Dashboard
+            </a>
+            </Link>
+            : ''
+            }
             {cookies.tutor || cookies.user ? 
                 <button onClick={Logout} className='hidden lg:flex py-1 px-2 border border-black bg-white text-black'>Logout</button> : ''
             }

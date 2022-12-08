@@ -1,0 +1,9 @@
+POST http://localhost:3000/api/checkout_sessions/
+Content-Type: application/json
+
+{
+    "thumbnail":"https://res.cloudinary.com/naveencloudinary/image/upload/v1669794573/mobile-app-img_qxrzco.jpg",
+    "quantity":3,
+    "name":"App development",
+    "description":"hello"
+}

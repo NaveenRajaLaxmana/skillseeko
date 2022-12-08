@@ -1,7 +1,7 @@
 import {ApolloClient,InMemoryCache, createHttpLink} from '@apollo/client'
 import {setContext} from '@apollo/client/link/context'
 const httpLink =new createHttpLink({
-    uri: "http://localhost:5000/graphql",
+    uri: "https://skill-seeko-backend.netlify.app/.netlify/functions/api/",
   })
   
   const authlink = setContext((_,{headers}) => {

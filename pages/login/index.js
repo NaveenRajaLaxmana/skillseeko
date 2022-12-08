@@ -30,7 +30,7 @@ const Login = () => {
     try {
       
       await login({variables:{username:username.current.value,password:password.current.value}})
-        router.push('/569')
+        router.push('/user/dashboard')
       
     } catch (error) {
       // console.log(error)

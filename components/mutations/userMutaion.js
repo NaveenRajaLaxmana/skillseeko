@@ -6,6 +6,7 @@ const USER_LOGIN = gql`
             token
     username
     email
+    courselist
         }
     }
 `
@@ -22,4 +23,14 @@ mutation register($username:String!,$password:String!,$email:String!)
 }
 `
 
-export {USER_LOGIN,USER_REGISTER}
+const USER_BUY_COURSE = gql `
+mutation buyCourse($email:String!,$courses:[String])
+{
+    buyCourse(email:$email,courses:$courses)
+    {
+        email
+    }
+}
+`
+
+export {USER_LOGIN,USER_REGISTER,USER_BUY_COURSE}

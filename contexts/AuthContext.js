@@ -40,6 +40,13 @@ export const logout = async (dispatch) => {
       })
 }
 
+export const buyCourseUser = async (courses,dispatch) => {
+    dispatch({
+        type: "BUY_COURSE",
+        payload: courses
+    })
+}
+
 export const checkUserLoggedIn = async () => {
     const{user:curuser,error}=useCheckLogin()
     if(curuser)return true;
@@ -80,6 +87,14 @@ const AuthReducer = (state,action) => {
             return {
                 ...state,
                 user:action.payload
+            }
+        case "BUY_COURSE":
+            return {
+                ...state,
+                user:{
+                    ...state.user,
+                    courselist:[...state.user.courselist,...action.payload]
+                }
             }
         default:
             throw new Error(`Unsupported type of: ${action.type}`);
