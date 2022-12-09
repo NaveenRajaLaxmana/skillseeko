@@ -11,9 +11,15 @@ import { GET_COURSE } from '@/components/queries/CourseQueries'
 
 const CourseBox =({course}) => {
   const router = useRouter()
-  const {data,error} = useQuery(GET_COURSE,{
+  const {data,error,loading} = useQuery(GET_COURSE,{
     variables:{id:course}
   })
+
+  if(loading){
+    return (
+      <h1>loading</h1>
+    )
+  }
   
   if(!data){
     return (
