@@ -19,14 +19,7 @@ import {Swiper,SwiperSlide,useSwiper} from 'swiper/react'
 import 'swiper/css'
 
 const Index = ({data}) => {    
-  // const {data} = useGetCourse()
-  const {user} = useCheckLogin()
-  
-  // console.log(data,user)
-  if(user)
-  {
-    localStorage.setItem("user","true")
-  }
+ 
   return (
     <div className="w-screen h-auto overflow-x-hidden">
       
